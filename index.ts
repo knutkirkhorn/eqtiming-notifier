@@ -10,11 +10,11 @@ await checkAndCreateTable();
 
 // TODO: find a better way to do this
 // Check for command line arguments to start watching an event
-const args = process.argv.slice(2);
-console.log('args', args);
+const arguments_ = process.argv.slice(2);
+console.log('args', arguments_);
 
-if (args.length > 0 && args[0] !== undefined) {
-	const eventId = parseInt(args[0], 10);
+if (arguments_.length > 0 && arguments_[0] !== undefined) {
+	const eventId = Number.parseInt(arguments_[0], 10);
 	const eventName = await getEventName(eventId);
 	const eventSignups = await getEventSignups(eventId);
 

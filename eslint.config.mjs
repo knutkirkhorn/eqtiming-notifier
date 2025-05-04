@@ -3,9 +3,11 @@ import eslintConfigPrettier from 'eslint-config-prettier';
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 import {defineConfig} from 'eslint/config';
 import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
 export default defineConfig([
 	js.configs.recommended,
+	tseslint.configs.recommended,
 	eslintPluginUnicorn.configs.recommended,
 	eslintConfigPrettier,
 	{
