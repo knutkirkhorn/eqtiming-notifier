@@ -24,6 +24,30 @@ export async function checkAndCreateTable() {
 	});
 }
 
+export async function watchEvent(
+	eventId: number,
+	name: string,
+	signups: number,
+) {
+	// Check if the event is already being watched
+	const rows = await knexInstance(watchingEventsTableName)
+		.where({event_id: eventId})
+		.select('event_id');
+
+	if (rows.length > 0) {
+		console.log(`Event ${eventId} is already being watched.`);
+		return false;
+	}
+
+	await knexInstance(watchingEventsTableName).insert({
+		event_id: eventId,
+		name: name,
+		signups: signups,
+	});
+
+	return true;
+}
+
 export async function stopDatabaseConnection() {
 	await knexInstance.destroy();
 }
