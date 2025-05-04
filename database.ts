@@ -48,6 +48,25 @@ export async function watchEvent(
 	return true;
 }
 
+export async function getWatchingEvents() {
+	const rows = await knexInstance(watchingEventsTableName).select(
+		'event_id',
+		'name',
+		'signups',
+	);
+	return rows.map(row => ({
+		eventId: row.event_id,
+		name: row.name,
+		signups: row.signups,
+	}));
+}
+
+export async function updateEventSignups(eventId: number, signups: number) {
+	await knexInstance(watchingEventsTableName)
+		.where({event_id: eventId})
+		.update({signups: signups});
+}
+
 export async function stopDatabaseConnection() {
 	await knexInstance.destroy();
 }
