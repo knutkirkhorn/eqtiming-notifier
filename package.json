@@ -8,6 +8,8 @@
 		"format:check": "prettier . --check"
 	},
 	"dependencies": {
+		"discord-webhook-wrapper": "^1.0.2",
+		"discord.js": "^14.19.3",
 		"dotenv": "^16.5.0",
 		"knex": "^3.1.0",
 		"sqlite3": "^5.1.7",

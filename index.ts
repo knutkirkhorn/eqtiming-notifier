@@ -5,6 +5,7 @@ import {
 	updateEventSignups,
 	watchEvent,
 } from './database';
+import {sendNewSignupDiscordMessage} from './discord-messaging';
 import {getEventName, getEventSignups} from './eqtiming';
 
 // Ensure database table exists
@@ -38,6 +39,7 @@ for (const event of watchingEvents) {
 		const numberOfNewSignups = eventSignups - event.signups;
 		console.log(`Event ${event.name} has ${numberOfNewSignups} new signups.`);
 		await updateEventSignups(event.eventId, eventSignups);
+		await sendNewSignupDiscordMessage(event.name, numberOfNewSignups);
 	}
 }
 
