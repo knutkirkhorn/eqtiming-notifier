@@ -7,6 +7,7 @@ const webhookClient = discordWebhookWrapper({
 });
 
 export async function sendNewSignupDiscordMessage(
+	eventId: number,
 	eventName: string,
 	numberOfNewSignups: number,
 ) {
@@ -14,7 +15,11 @@ export async function sendNewSignupDiscordMessage(
 		.setTitle('New event signups')
 		.setFields([
 			{name: 'Event', value: eventName},
-			{name: 'New Signups', value: numberOfNewSignups.toString()},
+			{name: 'New signups', value: numberOfNewSignups.toString()},
+			{
+				name: 'Go to event',
+				value: `[View event here](${config.apiBaseUrl}/${eventId}#contestants)`,
+			},
 		]);
 
 	await webhookClient.send({embeds: [embedMessage]});

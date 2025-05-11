@@ -39,7 +39,11 @@ for (const event of watchingEvents) {
 		const numberOfNewSignups = eventSignups - event.signups;
 		console.log(`Event ${event.name} has ${numberOfNewSignups} new signups.`);
 		await updateEventSignups(event.eventId, eventSignups);
-		await sendNewSignupDiscordMessage(event.name, numberOfNewSignups);
+		await sendNewSignupDiscordMessage(
+			event.eventId,
+			event.name,
+			numberOfNewSignups,
+		);
 	}
 }
 
