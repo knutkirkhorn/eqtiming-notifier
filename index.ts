@@ -28,7 +28,7 @@ if (arguments_.length > 0 && arguments_[0] !== undefined) {
 }
 
 // Check watching events in environment variable
-for (const watchingEventId of config.watchingEvents) {
+for (const watchingEventId of config.watchingEventIds) {
 	const event = await watchEvent(watchingEventId);
 
 	if (event.startedWatching) {
