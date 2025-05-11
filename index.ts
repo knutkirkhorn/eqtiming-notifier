@@ -1,3 +1,4 @@
+import config from './config';
 import {
 	checkAndCreateTable,
 	getWatchingEvents,
@@ -22,6 +23,17 @@ if (arguments_.length > 0 && arguments_[0] !== undefined) {
 	if (event.startedWatching) {
 		console.log(
 			`Started watching event ${event.name} (${eventId}) with ${event.signups} signups.`,
+		);
+	}
+}
+
+// Check watching events in environment variable
+for (const watchingEventId of config.watchingEvents) {
+	const event = await watchEvent(watchingEventId);
+
+	if (event.startedWatching) {
+		console.log(
+			`Started watching event ${event.name} (${watchingEventId}) with ${event.signups} signups.`,
 		);
 	}
 }
