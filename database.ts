@@ -1,4 +1,5 @@
 import knex from 'knex';
+import {getEventName, getEventSignups} from './eqtiming';
 
 const databaseConfig = {
 	client: 'sqlite3',
@@ -24,20 +25,23 @@ export async function checkAndCreateTable() {
 	});
 }
 
-export async function watchEvent(
-	eventId: number,
-	name: string,
-	signups: number,
-) {
+export async function watchEvent(eventId: number) {
 	// Check if the event is already being watched
-	const rows = await knexInstance(watchingEventsTableName)
-		.where({event_id: eventId})
-		.select('event_id');
+	const rows = await knexInstance(watchingEventsTableName).where({
+		event_id: eventId,
+	});
+	const isWatchingEvent = rows.length > 0;
+	const [event] = rows;
 
-	if (rows.length > 0) {
-		console.log(`Event ${eventId} is already being watched.`);
-		return false;
+	if (isWatchingEvent) {
+		console.log(
+			`Event '${event.name}' (${event.event_id}) is already being watched.`,
+		);
+		return {startedWatching: false, name: event.name, signups: event.signups};
 	}
+
+	const name = await getEventName(eventId);
+	const signups = await getEventSignups(eventId);
 
 	await knexInstance(watchingEventsTableName).insert({
 		event_id: eventId,
@@ -45,7 +49,7 @@ export async function watchEvent(
 		signups: signups,
 	});
 
-	return true;
+	return {startedWatching: true, name, signups};
 }
 
 export async function getWatchingEvents() {

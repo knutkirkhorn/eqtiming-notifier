@@ -6,7 +6,7 @@ import {
 	watchEvent,
 } from './database';
 import {sendNewSignupDiscordMessage} from './discord-messaging';
-import {getEventName, getEventSignups} from './eqtiming';
+import {getEventSignups} from './eqtiming';
 
 // Ensure database table exists
 await checkAndCreateTable();
@@ -17,16 +17,11 @@ const arguments_ = process.argv.slice(2);
 
 if (arguments_.length > 0 && arguments_[0] !== undefined) {
 	const eventId = Number.parseInt(arguments_[0], 10);
-	const eventName = await getEventName(eventId);
-	const eventSignups = await getEventSignups(eventId);
+	const event = await watchEvent(eventId);
 
-	// TODO: check if event is being watched before getting the name and signups
-
-	const startedWatching = await watchEvent(eventId, eventName, eventSignups);
-
-	if (startedWatching) {
+	if (event.startedWatching) {
 		console.log(
-			`Started watching event ${eventName} (${eventId}) with ${eventSignups} signups.`,
+			`Started watching event ${event.name} (${eventId}) with ${event.signups} signups.`,
 		);
 	}
 }
