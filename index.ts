@@ -29,11 +29,11 @@ if (arguments_.length > 0 && arguments_[0] !== undefined) {
 const watchingEvents = await getWatchingEvents();
 
 for (const event of watchingEvents) {
-	const eventSignups = await getEventSignups(event.eventId);
-	if (eventSignups !== event.signups) {
-		const numberOfNewSignups = eventSignups - event.signups;
+	const newEventSignups = await getEventSignups(event.eventId);
+	if (newEventSignups !== event.signups) {
+		const numberOfNewSignups = newEventSignups - event.signups;
 		console.log(`Event ${event.name} has ${numberOfNewSignups} new signups.`);
-		await updateEventSignups(event.eventId, eventSignups);
+		await updateEventSignups(event.eventId, newEventSignups);
 		await sendNewSignupDiscordMessage(
 			event.eventId,
 			event.name,
